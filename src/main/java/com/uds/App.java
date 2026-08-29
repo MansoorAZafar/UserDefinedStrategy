@@ -1,0 +1,70 @@
+package com.uds;
+import com.uds.enums.MenuOption;
+import com.uds.strategies.*;
+import com.uds.utilities.*;
+
+import java.util.Scanner;
+
+public class App  {
+    private static final String StrategyResourceFilename = "strategies.txt";
+    public static void main( String[] args ) {
+        final IPaymentStrategy DEFAULT_STRATEGY = new CreditCardStrategy("1234567898765432", 435);
+        Scanner scanner = new Scanner(System.in);
+        
+        TransactionManager manager = new TransactionManager(DEFAULT_STRATEGY, scanner, App.StrategyResourceFilename);
+        final String message = String.format(
+            """
+            Welcome to UDS
+            ________________
+            Simulate a transaction using a Payment Strategy.
+            The order of calls goes:
+            
+            --> enter amount
+            --> payment strategy calls pay()
+            
+            Current Strategy: [ %s ]
+            ____________________
+
+            1. Switch existing Banking Strategy
+            2. Make a custom Banking Strategy
+            3. Simulate Transaction
+            0. Quit
+
+            > """, 
+            manager.getStrategy()
+        );
+
+        boolean isRunning = true;
+        while(isRunning) {
+            Utilities.clearConsole();
+            System.out.print(message);
+            
+            final int rawSelection = Utilities.getSafeIntInput(scanner);
+            final MenuOption selection = MenuOption.fromInt(rawSelection);
+            System.out.println();
+            
+            Utilities.clearConsole();
+            switch(selection) {                
+                case MenuOption.SWITCH_STRATEGY -> {
+                    manager.switchStrategy();
+                }
+
+                case MenuOption.CREATE_STRATEGY -> {
+                    System.out.println("CREATE STRATEGY");
+                }
+
+                case MenuOption.SIMULATE_TRANSACTION -> {
+                    manager.simulateTransaction();
+                }
+
+                case MenuOption.QUIT -> isRunning = false;
+                default -> System.out.println("Invalid Selection");
+            }
+
+            Utilities.waitToContinue(scanner);
+        }
+
+        scanner.close();
+        System.out.println("... Goodbye ...");
+    }
+}
