@@ -43,7 +43,10 @@ public class App  {
             final MenuOption selection = MenuOption.fromInt(rawSelection);
             System.out.println();
             
-            Utilities.clearConsole();
+            if (selection != MenuOption.EMPTY && selection != MenuOption.QUIT) { 
+                Utilities.clearConsole();
+            }
+            
             switch(selection) {                
                 case MenuOption.SWITCH_STRATEGY -> {
                     manager.switchStrategy();
@@ -62,7 +65,7 @@ public class App  {
                     isRunning = false; 
                 }
                 
-                default -> System.out.println("Invalid Selection");
+                default -> { }
             }
 
             Utilities.waitToContinue(scanner);

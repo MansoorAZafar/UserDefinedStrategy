@@ -56,14 +56,15 @@ public class TransactionManager {
             }
 
             stringBuilder.append("\n> ");
+            int chosenConstructorIndex = -1;
             do {
                 Utilities.clearConsole();
                 System.out.print(stringBuilder);
             } while (
-                Utilities.getSafeIntInput(
+                (chosenConstructorIndex = Utilities.getSafeIntInput(
                     this.scanner, 
                     val -> val >= 0 && val < constructors.length
-                ) == -1
+                )) == -1
             );
 
             /** @TODO
@@ -90,10 +91,13 @@ public class TransactionManager {
     }
 
     public void simulateTransaction() {
-        System.out.println("\tSIMULATE TRANSACTION\n____________________\n");
-
-        System.out.print("Enter an amount to be paid: \n> ");
-        final double debt = Utilities.getSafeDoubleInput(scanner);
+        final String message = "SIMULATE TRANSACTION\n____________________\n\nEnter an amount to be paid: \n> ";
+        
+        double debt = -1.0;
+        do {
+            Utilities.clearConsole();
+            System.out.print(message);
+        } while ((debt = Utilities.getSafeDoubleInput(scanner)) == -1.0);
 
         if (debt != -1) {
             System.out.println("\nCalling pay() with amount: " + debt);

@@ -29,9 +29,9 @@ public class Utilities {
             
             return selection;
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid Input");
+            System.out.println("\nInvalid Input");
         } catch (Exception e) {
-            System.out.println("Invalid Input: " + e.getMessage());
+            System.out.println("\nInvalid Input: " + e.getMessage());
         }
 
         return nullValue;
