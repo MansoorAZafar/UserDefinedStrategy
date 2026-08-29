@@ -30,7 +30,7 @@ public class App  {
             3. Simulate Transaction
             0. Quit
 
-            > """, 
+            >\s""", 
             manager.getStrategy()
         );
 
