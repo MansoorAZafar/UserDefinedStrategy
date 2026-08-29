@@ -19,7 +19,7 @@ public class Utilities {
         scanner.nextLine();
     }
 
-    private static <T> T getSafeTypeInput(Scanner scanner, Function<String, T> parser, Function<T, Boolean> validator, T nullValue) {
+    public static <T> T getSafeTypeInput(Scanner scanner, Function<String, T> parser, Function<T, Boolean> validator, T nullValue) {
         String input = scanner.nextLine();
         try {
             final T selection = parser.apply(input); 
@@ -37,7 +37,7 @@ public class Utilities {
         return nullValue;
     }
 
-    public static int getSafeIntInput(Scanner scanner) {
+    public static int getSafeIntInput(Scanner scanner, Function<Integer, Boolean> filter) {
         // String input = scanner.nextLine();
         // try {
         //     final int selection = Integer.parseInt(input);
@@ -54,8 +54,17 @@ public class Utilities {
         return getSafeTypeInput(
             scanner, 
             input -> Integer.parseInt(input), 
-            val -> val >= 0 && val <= 3, 
+            filter, 
             -1
+        );
+    }
+
+    public static int getSafeIntInput(Scanner scanner, Function<Integer, Boolean> filter, int nullValue) {
+        return getSafeTypeInput(
+            scanner, 
+            input -> Integer.parseInt(input), 
+            filter, 
+            nullValue
         );
     }
 

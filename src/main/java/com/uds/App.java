@@ -39,7 +39,7 @@ public class App  {
             Utilities.clearConsole();
             System.out.print(message);
             
-            final int rawSelection = Utilities.getSafeIntInput(scanner);
+            final int rawSelection = Utilities.getSafeIntInput(scanner, val -> val >= 0 && val <= 3);
             final MenuOption selection = MenuOption.fromInt(rawSelection);
             System.out.println();
             
@@ -57,7 +57,11 @@ public class App  {
                     manager.simulateTransaction();
                 }
 
-                case MenuOption.QUIT -> isRunning = false;
+                case MenuOption.QUIT -> { 
+                    System.out.println("... Quitting ...");
+                    isRunning = false; 
+                }
+                
                 default -> System.out.println("Invalid Selection");
             }
 

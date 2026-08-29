@@ -1,6 +1,6 @@
 package com.uds;
 
-import java.util.Arrays;
+import java.lang.reflect.Constructor;
 import java.util.HashSet;
 import java.util.Scanner;
 import com.uds.strategies.IPaymentStrategy;
@@ -20,12 +20,12 @@ public class TransactionManager {
 
         this.knownStrategiesString = new StringBuilder();
         for (final String item : this.knownStrategies) {
-            this.knownStrategiesString.append(item + "\n");   
+            this.knownStrategiesString.append("\t" + item + "\n");   
         }
     }
 
     public void switchStrategy() {
-        final String message =  "\tSWITCH STRATEGY\n____________________\nExisting Strategies:\n" 
+        final String message =  "\tSWITCH STRATEGY\n____________________\nExisting Strategies:\n\n" 
             + this.knownStrategiesString
             + "\n> ";
 
@@ -39,7 +39,7 @@ public class TransactionManager {
             if (this.knownStrategies.contains(input)) {
                 invalidInput = false;
             } else {
-                System.out.println("Please choose one of the strategies or quit to leave\n");
+                System.out.println("\nPlease choose one of the strategies or quit to leave\n");
                 Utilities.waitToContinue(this.scanner);
             }
         }
@@ -47,7 +47,24 @@ public class TransactionManager {
         if ("quit".equals(input)) { return; }
         try {
             Class<?> chosenStrategy = Class.forName(input);
-            System.out.println("Constructors: " + Arrays.toString(chosenStrategy.getDeclaredConstructors()));
+
+            final Constructor<?>[] constructors = chosenStrategy.getDeclaredConstructors();
+            StringBuilder stringBuilder = new StringBuilder("Choose a Constructor\n\n");
+
+            for (int i = 0; i < constructors.length; ++i) {
+                stringBuilder.append("\t" + i + ": " + constructors[i] + "\n");
+            }
+
+            stringBuilder.append("\n> ");
+            do {
+                Utilities.clearConsole();
+                System.out.print(stringBuilder);
+            } while (
+                Utilities.getSafeIntInput(
+                    this.scanner, 
+                    val -> val >= 0 && val < constructors.length
+                ) == -1
+            );
 
             /** @TODO
              *  Take args from input, and the types
