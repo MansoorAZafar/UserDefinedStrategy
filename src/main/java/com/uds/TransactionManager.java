@@ -68,11 +68,6 @@ public class TransactionManager {
                 )) == -1
             );
 
-            /** @TODO
-             *  Take args from input, and the types
-             *  Call constructor with those inputs and respective types
-             */
-
             final Constructor<?> chosenConstructor = constructors[chosenConstructorIndex];
             Object[] arguments = new Object[chosenConstructor.getParameterCount()];
             int argumentsIndex = 0;
