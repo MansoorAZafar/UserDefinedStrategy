@@ -12,8 +12,7 @@ public class App  {
         Scanner scanner = new Scanner(System.in);
         
         TransactionManager manager = new TransactionManager(DEFAULT_STRATEGY, scanner, App.StrategyResourceFilename);
-        final String message = String.format(
-            """
+        final String message = """
             Welcome to UDS
             ________________
             Simulate a transaction using a Payment Strategy.
@@ -30,14 +29,12 @@ public class App  {
             3. Simulate Transaction
             0. Quit
 
-            >\s""", 
-            manager.getStrategy()
-        );
+            >\s""";
 
         boolean isRunning = true;
         while(isRunning) {
             Utilities.clearConsole();
-            System.out.print(message);
+            System.out.print(String.format(message, manager.getStrategy()));
             
             final int rawSelection = Utilities.getSafeIntInput(scanner, val -> val >= 0 && val <= 3);
             final MenuOption selection = MenuOption.fromInt(rawSelection);
