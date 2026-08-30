@@ -1,8 +1,8 @@
 package com.uds;
+
 import com.uds.enums.MenuOption;
 import com.uds.strategies.*;
 import com.uds.utilities.*;
-
 import java.util.Scanner;
 
 public class App  {
@@ -50,7 +50,7 @@ public class App  {
                 }
 
                 case MenuOption.CREATE_STRATEGY -> {
-                    System.out.println("CREATE STRATEGY");
+                    manager.addPayment();
                 }
 
                 case MenuOption.SIMULATE_TRANSACTION -> {

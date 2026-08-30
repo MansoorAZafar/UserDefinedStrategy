@@ -1,11 +1,12 @@
 package com.uds;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Scanner;
 import com.uds.strategies.IPaymentStrategy;
+import java.lang.reflect.Constructor;
 import com.uds.utilities.Utilities;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Scanner;
 
 public class TransactionManager {
     private ArrayList<String> knownStrategies;
@@ -113,6 +114,47 @@ public class TransactionManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void addPayment() {
+        final String message = """
+        Add Strategy
+        _____________________
+        
+        Must implement the IPaymentStrategy, 
+        must implement a constructor (any) and 
+        can potentially use custom types IF they implement a 
+        string constructor.
+
+        IPaymentStrategy Interface
+        public interface IPaymentStrategy {
+            public void pay(double amount);   
+        }
+        
+        ___________________________________
+        Keep writing the code line by line and write EOF
+        on its own line when done. CODE IS NOT VALIDATED.
+
+        Step 1: Enter the file name
+        >\s """;
+
+        String input = "";
+        HashSet<String> takenStrategyNames = new HashSet<>(this.knownStrategies);
+
+        do {
+            System.out.print(message);
+            input = this.scanner.nextLine();
+        } while (takenStrategyNames.contains(input));
+        if ("quit".equals(input)) return;
+
+        StringBuilder fileContentBuilder = new StringBuilder();
+        System.out.println("\nStep 2: File Content\n");
+        while (!"EOF".equals(input)) {
+            input = this.scanner.nextLine();
+            fileContentBuilder.append(input + "\n");
+        }
+        
+        System.out.println("\n\nFile CONTENT:\n" + fileContentBuilder);
     }
 
     public String getStrategy() {
