@@ -4,7 +4,7 @@ public class CreditCardStrategy implements IPaymentStrategy {
     private String cardNumber;
     private int cardVerificationCode;
 
-    public CreditCardStrategy(String cardNumber, int cardVerificationCode) {
+    public CreditCardStrategy(String cardNumber, Integer cardVerificationCode) {
         if(cardNumber.length() != 16 || (cardVerificationCode < 100 || cardVerificationCode > 999) ) {
             throw new IllegalArgumentException("cardNumber must be 16 digits and cvc must be between 100-999");
         } 

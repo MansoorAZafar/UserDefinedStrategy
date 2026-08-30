@@ -1,2 +1,3 @@
 quit
 com.uds.strategies.CreditCardStrategy
+com.uds.strategies.GiftCardStrategy

@@ -88,6 +88,6 @@ public class Utilities {
         }
 
         // load the credit card strategy by default into the set
-        return new HashSet<String>(Set.of("quit", "com.uds.strategies.CreditCardStrategy"));
+        return new HashSet<String>(Set.of("quit", "com.uds.strategies.CreditCardStrategy", "com.uds.strategies.GiftCardStrategy"));
     }
 }
