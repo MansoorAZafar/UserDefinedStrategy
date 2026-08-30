@@ -1,6 +1,7 @@
 package com.uds;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Scanner;
 import com.uds.strategies.IPaymentStrategy;
@@ -72,11 +73,40 @@ public class TransactionManager {
              *  Call constructor with those inputs and respective types
              */
 
+            final Constructor<?> chosenConstructor = constructors[chosenConstructorIndex];
+            Object[] arguments = new Object[chosenConstructor.getParameterCount()];
+            int argumentsIndex = 0;
 
-            this.strategy = (IPaymentStrategy) chosenStrategy.getDeclaredConstructor(
-                String.class, 
-                int.class
-            ).newInstance("1234567891234567", 123);
+            for (Class<?> parameterType : chosenConstructor.getParameterTypes()) {
+                boolean canContinue = false;
+                while (!canContinue) { 
+                    try {
+                        System.out.print("Enter a " + parameterType.getName() + " value\n> ");
+                        input = this.scanner.nextLine();
+                        
+                        arguments[argumentsIndex++] 
+                            = parameterType.getConstructor(String.class).newInstance(input);
+                        canContinue = true;
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Invalid Input");   
+                    } catch (InvocationTargetException e) {
+                        System.out.println("!!! Bad Arugments for your constructor, See Stack trace below: !!!\n");
+                        final Throwable rootCause = e.getCause(); 
+            
+                        System.out.println("Reflection wrapper caught: " + e);
+                        System.out.println("The actual error is: " + rootCause);
+
+                        if (rootCause != null) {
+                            rootCause.printStackTrace(); 
+                        }
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            
+            this.strategy = (IPaymentStrategy) chosenConstructor.newInstance(arguments);
         } catch (ClassNotFoundException e) {
             System.out.println("The class " + input + " could not be found.");
         } catch (ClassCastException e) {
