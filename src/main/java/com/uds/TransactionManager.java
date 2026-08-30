@@ -74,9 +74,15 @@ public class TransactionManager {
                 boolean canContinue = false;
                 while (!canContinue) { 
                     try {
-                        System.out.print("Enter a " + parameterType.getName() + " value\n> ");
-                        input = this.scanner.nextLine();
+                        System.out.print("Enter a " + parameterType.getName() + " value\nOr enter quit to leave\n> ");
                         
+                        input = this.scanner.nextLine();
+                        if ("quit".equals(input)) {
+                            canContinue = false;
+                            return;
+                        }
+                        
+                        // each arg needs to be parsable from a string, if not :(
                         arguments[argumentsIndex++] 
                             = parameterType.getConstructor(String.class).newInstance(input);
                         canContinue = true;
