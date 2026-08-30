@@ -15,8 +15,8 @@ public class CreditCardStrategy implements IPaymentStrategy {
 
     @Override
     public void pay(double amount) {
-        System.out.println(
-            amount 
+        System.out.println("$" 
+            + amount 
             + " Paid using Credit Card [ "
             + this.cardNumber
             + " ] with cvc: [ "

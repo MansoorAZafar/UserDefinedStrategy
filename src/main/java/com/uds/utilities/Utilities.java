@@ -3,7 +3,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.function.Function;
@@ -77,17 +79,17 @@ public class Utilities {
         );
     }
 
-    public static HashSet<String> readFromFile(final String filename) {
+    public static ArrayList<String> readFromFile(final String filename) {
         try (InputStream inputStream = Utilities.class.getClassLoader().getResourceAsStream(filename)) {
             if (inputStream == null) { throw new IllegalArgumentException("Resource file not found: " + filename); }
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-                return reader.lines().collect(Collectors.toCollection(HashSet::new));
+                return reader.lines().collect(Collectors.toCollection(ArrayList::new));
             }
         } catch (final Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
 
         // load the credit card strategy by default into the set
-        return new HashSet<String>(Set.of("quit", "com.uds.strategies.CreditCardStrategy", "com.uds.strategies.GiftCardStrategy"));
+        return new ArrayList<String>(List.of("quit", "com.uds.strategies.CreditCardStrategy", "com.uds.strategies.GiftCardStrategy"));
     }
 }

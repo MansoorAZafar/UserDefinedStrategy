@@ -2,13 +2,13 @@ package com.uds;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Scanner;
 import com.uds.strategies.IPaymentStrategy;
 import com.uds.utilities.Utilities;
 
 public class TransactionManager {
-    private HashSet<String> knownStrategies;
+    private ArrayList<String> knownStrategies;
     private StringBuilder knownStrategiesString;
 
     private IPaymentStrategy strategy;
@@ -20,8 +20,9 @@ public class TransactionManager {
         this.scanner = scanner;
 
         this.knownStrategiesString = new StringBuilder();
-        for (final String item : this.knownStrategies) {
-            this.knownStrategiesString.append("\t" + item + "\n");   
+        for (int index = 0; index < knownStrategies.size(); ++index) {
+            final String message = "\t" + index + ": " + knownStrategies.get(index) + "\n";
+            this.knownStrategiesString.append(message);   
         }
     }
 
@@ -30,28 +31,25 @@ public class TransactionManager {
             + this.knownStrategiesString
             + "\n> ";
 
-        String input = "";
-        boolean invalidInput = true;
-        while (invalidInput) {
+        int chosenStrategyIndex = -1;
+        do {
             Utilities.clearConsole();
             System.out.print(message);
+        } while (
+            (chosenStrategyIndex = Utilities.getSafeIntInput(
+                this.scanner, 
+                val -> val >= 0 && val < knownStrategies.size()
+            )) == -1
+        );
 
-            input = this.scanner.nextLine();
-            if (this.knownStrategies.contains(input)) {
-                invalidInput = false;
-            } else {
-                System.out.println("\nPlease choose one of the strategies or quit to leave\n");
-                Utilities.waitToContinue(this.scanner);
-            }
-        }
+        if (chosenStrategyIndex == 0) { return; }
+        String input = this.knownStrategies.get(chosenStrategyIndex);
 
-        if ("quit".equals(input)) { return; }
         try {
-            Class<?> chosenStrategy = Class.forName(input);
-
+            final Class<?> chosenStrategy = Class.forName(input);
             final Constructor<?>[] constructors = chosenStrategy.getDeclaredConstructors();
+            
             StringBuilder stringBuilder = new StringBuilder("Choose a Constructor\n\n");
-
             for (int i = 0; i < constructors.length; ++i) {
                 stringBuilder.append("\t" + i + ": " + constructors[i] + "\n");
             }
@@ -70,8 +68,8 @@ public class TransactionManager {
 
             final Constructor<?> chosenConstructor = constructors[chosenConstructorIndex];
             Object[] arguments = new Object[chosenConstructor.getParameterCount()];
+            
             int argumentsIndex = 0;
-
             for (Class<?> parameterType : chosenConstructor.getParameterTypes()) {
                 boolean canContinue = false;
                 while (!canContinue) { 

@@ -26,6 +26,6 @@ public class GiftCardStrategy implements IPaymentStrategy {
     }
 
     public void pay(double amount) {
-        System.out.println("Paying " + amount + " with giftcard: " + this.id);
+        System.out.println("Paying $" + amount + " with GiftCard: " + this.id);
     }
 }
