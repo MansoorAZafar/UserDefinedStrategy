@@ -1,12 +1,13 @@
 package com.uds;
 
+import com.uds.api.IPaymentStrategy;
 import com.uds.enums.MenuOption;
 import com.uds.strategies.*;
 import com.uds.utilities.*;
 import java.util.Scanner;
 
 public class App  {
-    private static final String StrategyResourceFilename = "strategies.txt";
+    public static final String StrategyResourceFilename = "strategies.txt";
     public static void main( String[] args ) {
         final IPaymentStrategy DEFAULT_STRATEGY = new CreditCardStrategy("1234567898765432", 435);
         Scanner scanner = new Scanner(System.in);
@@ -69,6 +70,7 @@ public class App  {
         }
 
         scanner.close();
+        manager.cleanup();
         System.out.println("... Goodbye ...");
     }
 }

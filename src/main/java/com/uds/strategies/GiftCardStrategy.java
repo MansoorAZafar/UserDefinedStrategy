@@ -1,6 +1,8 @@
 package com.uds.strategies;
 
 import java.security.SecureRandom;
+
+import com.uds.api.IPaymentStrategy;
 public class GiftCardStrategy implements IPaymentStrategy {
     private final String id;
     private final int maxIdLength = 16; 
@@ -25,6 +27,7 @@ public class GiftCardStrategy implements IPaymentStrategy {
         this.id = randomStringBuilder.toString();
     }
 
+    @Override
     public void pay(double amount) {
         System.out.println("Paying $" + amount + " with GiftCard: " + this.id);
     }

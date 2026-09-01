@@ -1,5 +1,7 @@
 package com.uds.strategies;
 
+import com.uds.api.IPaymentStrategy;
+
 public class CreditCardStrategy implements IPaymentStrategy {
     private String cardNumber;
     private int cardVerificationCode;
