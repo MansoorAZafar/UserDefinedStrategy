@@ -20,7 +20,6 @@ import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
-import javax.tools.StandardLocation;
 
 public class TransactionManager {
     private ArrayList<String> knownStrategies;
