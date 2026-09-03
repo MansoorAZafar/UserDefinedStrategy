@@ -4,7 +4,6 @@ A console application that let's users either use pre-defined payment strategies
 When choosing pre-defined users are allowed to choose which constructor to use and pass in any value(s). 
 By default, it comes with a basic Credit Card and Gift Card strategy.
 
-**Live Demo:**  
 
 ## Demo
 <p align="center"> 
